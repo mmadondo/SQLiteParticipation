@@ -23,7 +23,7 @@ public class CommentsDataSource {
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_COMMENT };
-
+    //reference to database
     public CommentsDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
     }
@@ -31,11 +31,11 @@ public class CommentsDataSource {
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
-
+    //closes database helper
     public void close() {
         dbHelper.close();
     }
-
+    //creates and adds comment to db
     public Comment createComment(String comment) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
@@ -44,25 +44,25 @@ public class CommentsDataSource {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
                 allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
-        cursor.moveToFirst();
+        cursor.moveToFirst(); //points to first comment 
         Comment newComment = cursorToComment(cursor);
-        cursor.close();
+        cursor.close(); //closes the cursor
         return newComment;
     }
-
+    //removes comments from db
     public void deleteComment(Comment comment) {
         long id = comment.getId();
         System.out.println("Comment deleted with id: " + id);
         database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
-
+    //retrieves all comments in a column in a db
     public List<Comment> getAllComments() {
         List<Comment> comments = new ArrayList<Comment>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
                 allColumns, null, null, null, null, null);
-
+    //adds all the comments starting from first
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Comment comment = cursorToComment(cursor);
@@ -73,7 +73,7 @@ public class CommentsDataSource {
         cursor.close();
         return comments;
     }
-
+    //points cursor to comment
     private Comment cursorToComment(Cursor cursor) {
         Comment comment = new Comment();
         comment.setId(cursor.getLong(0));
