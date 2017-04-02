@@ -29,14 +29,12 @@ public class Comment{
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-   
-    @Override
-
+    
     /**
     *used by the ArrayAdapter in the ListView
     *returns comment
     */
+    @Override
     public String toString() {
         return comment;
     }
