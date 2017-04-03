@@ -12,6 +12,7 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_COMMENTS = "comments";
+    public static final String COLUMN_RATING = "rating";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_COMMENT = "comment";
     private static final String DATABASE_NAME = "commments.db";
@@ -21,7 +22,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "  //creates a new table
             + TABLE_COMMENTS + "( " + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_COMMENT
-            + " text not null);";
+            + " text not null"
+            + COLUMN_RATING + "text" + ");";  //adding the rating field to the db
 
     /**
      *
@@ -53,6 +55,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENTS); //removes existing database and calls onCreate() to recreate the database
+        db.execSQL(COLUMN_RATING);  //Increment the DATABASE_VERSION so Android deletes the old database and recreates the new one with the new field.
         onCreate(db);
     }
 

@@ -9,6 +9,17 @@ package commmadondo.github.sqliteparticipation;
 public class Comment {
     private long id;
     private String comment;
+    private String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+
 
     public long getId() {
         return id;
@@ -29,6 +40,6 @@ public class Comment {
     // Will be used by the ArrayAdapter in the ListView
     @Override
     public String toString() {
-        return comment;
+        return (comment + "The rating is " + rating);  //displays the rating along with the comment text
     }
 }
