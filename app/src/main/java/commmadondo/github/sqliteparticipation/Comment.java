@@ -19,8 +19,6 @@ public class Comment{
         this.rating = rating;
     }
 
-
-
     //retrieves and returns comment id 
     public long getId() {
         return id;
