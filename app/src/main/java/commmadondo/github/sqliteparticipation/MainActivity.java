@@ -1,13 +1,11 @@
 package commmadondo.github.sqliteparticipation;
 
-import android.media.Rating;
 import android.os.Bundle;
 import java.util.List;
 import java.util.Random;
 import android.app.ListActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
 public class MainActivity extends ListActivity {
     private CommentsDataSource datasource;
@@ -16,7 +14,6 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         datasource = new CommentsDataSource(this);
         datasource.open();
@@ -36,20 +33,17 @@ public class MainActivity extends ListActivity {
         @SuppressWarnings("unchecked")
         ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
         Comment comment = null;
-
-        EditText editTxt = (EditText) findViewById(R.id.editText); //declare editText field
-        String rating = editTxt.getText().toString();
-
-
         switch (view.getId()) {
+                //to add a new comment to the list
             case R.id.add:
                 String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
                 int nextInt = new Random().nextInt(3);
                 // save the new comment to the database
-                comment = datasource.createComment(comments[nextInt], rating);
+                comment = datasource.createComment(comments[nextInt]);
                 adapter.add(comment);
                 break;
-
+                
+                //To delete a comment from a list
             case R.id.delete:
                 if (getListAdapter().getCount() > 0) {
                     comment = (Comment) getListAdapter().getItem(0);
@@ -63,11 +57,13 @@ public class MainActivity extends ListActivity {
 
     @Override
     protected void onResume() {
+        //IF DATABASE HAD BEEN PAUSED, IT OPENS 
         datasource.open();
         super.onResume();
     }
 
     @Override
+    //CLOSES THE DATABASE TEMPORARILY
     protected void onPause() {
         datasource.close();
         super.onPause();
